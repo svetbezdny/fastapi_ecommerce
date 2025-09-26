@@ -1,0 +1,21 @@
+[project]
+name = "fastapi-ecommerce"
+version = "0.1.0"
+description = "Simple FastAPI CRUD App"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.16.5",
+    "fastapi>=0.117.1",
+    "orjson>=3.11.3",
+    "pydantic>=2.11.9",
+    "pydantic-settings>=2.10.1",
+    "ruff>=0.13.1",
+    "sqlalchemy>=2.0.43",
+    "uvicorn>=0.36.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+]
