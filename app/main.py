@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse, ORJSONResponse
+from fastapi.responses import ORJSONResponse, RedirectResponse
 
-from app.routers import routers
 from app.config import settings
+from app.routers import routers
 
 app = FastAPI(
     title=settings.TITLE,

@@ -1,18 +1,17 @@
-"""initial create tables
+"""initial migration for postges
 
-Revision ID: 12981f2ef855
+Revision ID: 613ece929594
 Revises:
-Create Date: 2025-09-24 23:32:18.146014
+Create Date: 2025-09-27 22:17:36.209149
 
 """
 
 from typing import Sequence, Union
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
-
-revision: str = "12981f2ef855"
+revision: str = "613ece929594"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

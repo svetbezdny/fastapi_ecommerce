@@ -1,20 +1,9 @@
-from pydantic import (
-    BaseModel,
-    Field,
-    ConfigDict,
-    PositiveFloat,
-    NonNegativeInt,
-    PositiveInt,
-)
+from pydantic import BaseModel, ConfigDict, Field, NonNegativeInt, PositiveFloat, PositiveInt
 
 
 class CategoryCreate(BaseModel):
-    name: str = Field(
-        min_length=3, max_length=50, description="Название категории (3-50 символов)"
-    )
-    parent_id: int | None = Field(
-        default=None, description="ID родительской категории, если есть"
-    )
+    name: str = Field(min_length=3, max_length=50, description="Название категории (3-50 символов)")
+    parent_id: int | None = Field(default=None, description="ID родительской категории, если есть")
 
 
 class Category(CategoryCreate):
@@ -25,19 +14,11 @@ class Category(CategoryCreate):
 
 
 class ProductCreate(BaseModel):
-    name: str = Field(
-        min_length=3, max_length=100, description="Название товара (3-100 символов)"
-    )
-    description: str | None = Field(
-        default=None, max_length=500, description="Описание товара (до 500 символов)"
-    )
+    name: str = Field(min_length=3, max_length=100, description="Название товара (3-100 символов)")
+    description: str | None = Field(default=None, max_length=500, description="Описание товара (до 500 символов)")
     price: PositiveFloat = Field(description="Цена товара (больше 0)")
-    image_url: str | None = Field(
-        default=None, max_length=200, description="URL изображения товара"
-    )
-    stock: NonNegativeInt = Field(
-        description="Количество товара на складе (0 или больше)"
-    )
+    image_url: str | None = Field(default=None, max_length=200, description="URL изображения товара")
+    stock: NonNegativeInt = Field(description="Количество товара на складе (0 или больше)")
     category_id: int = Field(description="ID категории, к которой относится товар")
 
 

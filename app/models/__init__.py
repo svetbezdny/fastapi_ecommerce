@@ -1,7 +1,7 @@
 __all__ = [
+    "Base",
     "Category",
     "Product",
-    "Base",
 ]
 
 from .base import Base

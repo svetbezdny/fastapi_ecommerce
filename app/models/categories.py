@@ -1,7 +1,7 @@
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING, Optional
 
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
@@ -16,14 +16,10 @@ class Category(Base):
     parent_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id"))
     is_active: Mapped[bool] = mapped_column(default=True)
 
-    products: Mapped[list["Product"]] = relationship(
-        "Product", back_populates="category"
-    )
+    products: Mapped[list["Product"]] = relationship("Product", back_populates="category")
 
     parent: Mapped[Optional["Category"]] = relationship(
         "Category", back_populates="children", remote_side="Category.id"
     )
 
-    children: Mapped[list["Category"]] = relationship(
-        "Category", back_populates="parent"
-    )
+    children: Mapped[list["Category"]] = relationship("Category", back_populates="parent")

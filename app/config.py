@@ -1,5 +1,6 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -13,8 +14,16 @@ class Settings(BaseSettings):
     RELOAD: bool = False
     LOG_LEVEL: str = "info"
 
-    DATABASE_URL: str = "sqlite:///ecommerce.db"
+    POSTGRES_DB: str
+    POSTGRES_PORT: int
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    SQLITE_DATABASE_URL: str = "sqlite:///ecommerce.db"
     ECHO: bool = False
+
+    @property
+    def DATABASE_URL(self):
+        return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@localhost:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
     model_config = SettingsConfigDict(
         env_file=(BASE_PATH.parent / ".env").resolve(),
@@ -22,4 +31,4 @@ class Settings(BaseSettings):
     )
 
 
-settings = Settings()
+settings = Settings()  # type: ignore

@@ -1,6 +1,7 @@
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
@@ -16,8 +17,6 @@ class Product(Base):
     stock: Mapped[int] = mapped_column(nullable=False)
     is_active: Mapped[bool] = mapped_column(default=True)
 
-    category_id: Mapped[int] = mapped_column(
-        ForeignKey("categories.id"), nullable=False
-    )
+    category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"), nullable=False)
 
     category: Mapped["Category"] = relationship("Category", back_populates="products")

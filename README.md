@@ -5,3 +5,5 @@
 -   SQLAlchemy
 -   Alembic
 -   SQLite
+-   PostgreSQL
+-   Docker

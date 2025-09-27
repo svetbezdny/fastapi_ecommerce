@@ -6,7 +6,10 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.16.5",
+    "asyncpg>=0.30.0",
     "fastapi>=0.117.1",
+    "greenlet>=3.2.4",
+    "isort>=6.0.1",
     "orjson>=3.11.3",
     "pydantic>=2.11.9",
     "pydantic-settings>=2.10.1",
@@ -19,3 +22,65 @@ dependencies = [
 dev = [
     "mypy>=1.18.2",
 ]
+
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    ".venv",
+    "migrations"
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "ASYNC", # flake8-async
+    "S",   # flake8-bandit (security)
+    "TCH", # flake8-type-checking
+    "RUF", # Ruff-specific rules
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+known-third-party = ["fastapi", "pydantic", "loguru", "httpx"]
+classes = ["dataclass", "enum", "exception", "model", "namedtuple", "class", "type"]
+constants = ["constant", "final"]
+variables = ["variable", "var"]
+order-by-type = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
