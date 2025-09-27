@@ -19,7 +19,9 @@ async def get_all_products(db: get_db_dep):
 
 @router.post("/", response_model=ProductSchema, status_code=status.HTTP_201_CREATED)
 async def create_product(db: get_db_dep, product: ProductCreate):
-    stmt = select(CategoryModel).where(CategoryModel.id == product.category_id)
+    stmt = select(CategoryModel).where(
+        CategoryModel.id == product.category_id, CategoryModel.is_active
+    )
     category = db.scalars(stmt).first()
     if not category:
         raise HTTPException(
@@ -34,7 +36,9 @@ async def create_product(db: get_db_dep, product: ProductCreate):
 
 @router.get("/category/{category_id}", response_model=list[ProductSchema])
 async def get_products_by_category(db: get_db_dep, category_id: int):
-    category_stmt = select(CategoryModel).where(CategoryModel.id == category_id)
+    category_stmt = select(CategoryModel).where(
+        CategoryModel.id == category_id, CategoryModel.is_active
+    )
     category = db.scalars(category_stmt).first()
     if not category:
         raise HTTPException(
@@ -56,7 +60,9 @@ async def get_product(db: get_db_dep, product_id: int):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Product not found"
         )
-    category_stmt = select(CategoryModel).where(CategoryModel.id == product.category_id)
+    category_stmt = select(CategoryModel).where(
+        CategoryModel.id == product.category_id, CategoryModel.is_active
+    )
     category = db.scalars(category_stmt).first()
     if not category:
         raise HTTPException(
@@ -75,7 +81,9 @@ async def update_product(db: get_db_dep, product_id: int, product: ProductCreate
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Product not found"
         )
-    category_stmt = select(CategoryModel).where(CategoryModel.id == product.category_id)
+    category_stmt = select(CategoryModel).where(
+        CategoryModel.id == product.category_id, CategoryModel.is_active
+    )
     category = db.scalars(category_stmt).first()
     if not category:
         raise HTTPException(
@@ -84,14 +92,7 @@ async def update_product(db: get_db_dep, product_id: int, product: ProductCreate
     db.execute(
         update(ProductModel)
         .where(ProductModel.id == product_id)
-        .values(
-            name=product.name,
-            description=product.description,
-            price=product.price,
-            image_url=product.image_url,
-            stock=product.stock,
-            category_id=product.category_id,
-        )
+        .values(**product.model_dump())
     )
     db.commit()
     db.refresh(exist_product)
