@@ -7,11 +7,13 @@ requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.16.5",
     "asyncpg>=0.30.0",
+    "bcrypt==4.0.1",
     "fastapi>=0.117.1",
     "greenlet>=3.2.4",
     "isort>=6.0.1",
     "orjson>=3.11.3",
-    "pydantic>=2.11.9",
+    "passlib>=1.7.4",
+    "pydantic[email]>=2.11.9",
     "pydantic-settings>=2.10.1",
     "ruff>=0.13.1",
     "sqlalchemy>=2.0.43",
@@ -21,6 +23,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "mypy>=1.18.2",
+    "types-passlib>=1.7.7.20250602",
 ]
 
 
@@ -84,3 +87,8 @@ order-by-type = true
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.mypy]
+exclude = [
+    ".*/migrations",
+]
