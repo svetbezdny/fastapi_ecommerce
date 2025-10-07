@@ -19,6 +19,9 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema."""
+
+    op.execute('CREATE SCHEMA IF NOT EXISTS ecommerce_db')
+
     op.create_table(
         "categories",
         sa.Column("id", sa.Integer(), nullable=False),

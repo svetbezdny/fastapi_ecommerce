@@ -3,10 +3,12 @@ __all__ = ["routers"]
 
 from .categories import router as categories_router
 from .products import router as products_router
-from .users import router as user_router
+from .reviews import router as reviews_router
+from .users import router as users_router
 
 routers = [
-    user_router,
+    users_router,
     categories_router,
     products_router,
+    reviews_router,
 ]

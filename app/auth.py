@@ -64,10 +64,13 @@ async def get_current_user(db: get_db_dep, token: Annotated[str, Depends(oauth2_
     return user
 
 
-def get_current_seller(current_user: Annotated[UserModel, Depends(get_current_user)]):
-    if current_user.role != "seller":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only sellers can access this endpoint",
-        )
-    return current_user
+def get_current_role(required_role: str):
+    def role_dep(current_user: Annotated[UserModel, Depends(get_current_user)]):
+        if current_user.role != required_role:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Only {required_role} can access this endpoint",
+            )
+        return current_user
+
+    return role_dep

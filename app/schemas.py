@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, NonNegativeInt, PositiveFloat, PositiveInt
 
 
@@ -40,5 +42,20 @@ class User(BaseModel):
     email: EmailStr
     is_active: bool
     role: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ReviewCreate(BaseModel):
+    product_id: PositiveInt
+    comment: str | None = Field(default=None)
+    grade: int = Field(ge=1, le=5, description="Оценка от 1 до 5")
+
+
+class Review(ReviewCreate):
+    id: PositiveInt
+    user_id: PositiveInt
+    comment_date: datetime = Field(default_factory=datetime.now, description="Дата создания отзыва")
+    is_active: bool
 
     model_config = ConfigDict(from_attributes=True)

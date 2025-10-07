@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, update
 
-from app.auth import get_current_seller
+from app.auth import get_current_role
 from app.db_depends import get_db_dep
 from app.models import Category as CategoryModel
 from app.models import Product as ProductModel
@@ -25,7 +25,7 @@ async def get_all_products(db: get_db_dep):
 
 @router.post("/", response_model=ProductSchema, status_code=status.HTTP_201_CREATED)
 async def create_product(
-    db: get_db_dep, product: ProductCreate, current_user: Annotated[UserModel, Depends(get_current_seller)]
+    db: get_db_dep, product: ProductCreate, current_user: Annotated[UserModel, Depends(get_current_role("seller"))]
 ):
     stmt = select(CategoryModel).where(CategoryModel.id == product.category_id, CategoryModel.is_active)
     category = await db.scalars(stmt)
@@ -71,7 +71,7 @@ async def update_product(
     db: get_db_dep,
     product_id: int,
     product: ProductCreate,
-    current_user: Annotated[UserModel, Depends(get_current_seller)],
+    current_user: Annotated[UserModel, Depends(get_current_role("seller"))],
 ):
     stmt = select(ProductModel).where(ProductModel.id == product_id, ProductModel.is_active)
     exist_product = await db.scalars(stmt)
@@ -97,7 +97,7 @@ async def update_product(
 async def delete_product(
     db: get_db_dep,
     product_id: int,
-    current_user: Annotated[UserModel, Depends(get_current_seller)],
+    current_user: Annotated[UserModel, Depends(get_current_role("seller"))],
 ):
     product_stmt = select(ProductModel).where(ProductModel.id == product_id, ProductModel.is_active)
     product = await db.scalars(product_stmt)
