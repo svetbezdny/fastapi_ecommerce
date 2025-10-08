@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 
 from app.auth import get_current_role
-from app.db_depends import get_db_dep, update_product_rating
+from app.db_utils import get_db_dep, update_product_rating
 from app.models import Product as ProductModel
 from app.models import Review as ReviewModel
 from app.models import User as UserModel
